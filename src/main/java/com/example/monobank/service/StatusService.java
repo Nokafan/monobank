@@ -1,7 +1,8 @@
 package com.example.monobank.service;
 
 import com.example.monobank.entities.Status;
+import com.example.monobank.entities.Status.StatusName;
 
 public interface StatusService extends GeneralService<Status> {
-    Status findByBidStatus(Status.BidStatus bidStatus);
+    Status getByStatusName(StatusName statusName);
 }

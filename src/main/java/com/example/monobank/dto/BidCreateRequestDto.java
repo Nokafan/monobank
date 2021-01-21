@@ -4,7 +4,7 @@ import javax.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class BidRequestDto {
+public class BidCreateRequestDto {
     @NotBlank(message = "Must contain route number")
     private String routeId;
     @NotBlank(message = "Must contain day and time of departure")
