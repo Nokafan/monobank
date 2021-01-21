@@ -40,10 +40,10 @@ public class EventListener implements ApplicationListener<ApplicationStartedEven
                 .build();
         routeService.save(routeTwo);
 
-        statusService.save(Status.builder().bidStatus(Status.BidStatus.NEW).build());
-        statusService.save(Status.builder().bidStatus(Status.BidStatus.IN_PROGRESS).build());
-        statusService.save(Status.builder().bidStatus(Status.BidStatus.ERROR).build());
-        statusService.save(Status.builder().bidStatus(Status.BidStatus.DONE).build());
+        statusService.save(Status.builder().statusName(Status.StatusName.NEW).build());
+        statusService.save(Status.builder().statusName(Status.StatusName.IN_PROGRESS).build());
+        statusService.save(Status.builder().statusName(Status.StatusName.ERROR).build());
+        statusService.save(Status.builder().statusName(Status.StatusName.DONE).build());
 
         Bid bid = Bid.builder()
                 .dateTime(LocalDateTime.now())

@@ -1,11 +1,13 @@
 package com.example.monobank.service.implementation;
 
 import com.example.monobank.entities.Route;
+import com.example.monobank.exception.DataProcessingException;
 import com.example.monobank.repositories.RouteRepository;
 import com.example.monobank.service.RouteService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @Service
 public class RouteServiceImpl implements RouteService {
@@ -32,11 +34,17 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
+    @ExceptionHandler({DataProcessingException.class})
     public Route get(Long routeId) {
-        return routeRepository.findById(routeId).orElseThrow();
+        return routeRepository.findById(routeId)
+                .orElseThrow(() -> new DataProcessingException("No such a route with id: "
+                + routeId + " in DB"));
     }
 
     public Route getByExternalId(String externalRouteId) {
-        return routeRepository.getRouteByExternalRouteId(externalRouteId).orElseThrow();
+        return routeRepository.getRouteByExternalRouteId(externalRouteId)
+                .orElseThrow(() ->
+                        new DataProcessingException("No such a route with externalRouteId: "
+                        + externalRouteId + " in DB"));
     }
 }

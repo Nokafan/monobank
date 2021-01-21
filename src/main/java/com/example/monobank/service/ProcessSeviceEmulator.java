@@ -1,9 +1,7 @@
 package com.example.monobank.service;
 
-import com.example.monobank.entities.Status;
-
 public interface ProcessSeviceEmulator {
-    Status getRandomStatus();
+    String getRandomStatusName();
 
-    void startProcessing() throws InterruptedException;
+    void startProcessing();
 }

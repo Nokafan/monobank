@@ -13,8 +13,8 @@ public class ProcessController {
     }
 
     @GetMapping("/start")
-    public String start() throws InterruptedException {
+    public String start() {
         processSeviceEmulator.startProcessing();
-        return "Start";
+        return "Started";
     }
 }
