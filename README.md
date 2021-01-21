@@ -1,4 +1,7 @@
 "# monobank"
+
+Початкове рішення, косо криве.
+
 GET http://localhost:8080/
 
 POST http://localhost:8080/order/create
