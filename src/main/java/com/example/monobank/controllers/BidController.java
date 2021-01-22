@@ -9,6 +9,7 @@ import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,13 +28,14 @@ public class BidController {
     }
 
     @PostMapping("/create")
-    public Long createOrder(@RequestBody @Valid BidCreateRequestDto bidCreateRequestDto) {
+    public Long createOrder(@Valid @RequestBody BidCreateRequestDto bidCreateRequestDto) {
         return bidService.createAndSave(bidCreateRequestDto).getId();
     }
 
-    @GetMapping("/status")
-    public StatusName getStatus(@RequestParam(name = "orderId") @Valid Long orderId) {
-        return bidService.get(orderId).getStatus().getStatusName();
+    @GetMapping("/status/{id}")
+
+    public StatusName getStatusOfBid(@Valid @PathVariable(name = "id") Long id) {
+        return bidService.get(id).getStatus().getStatusName();
     }
 
     @GetMapping("/all")
@@ -42,8 +44,8 @@ public class BidController {
     }
 
     @GetMapping("/process")
-    public Bid bidToProcess(@RequestParam(name = "status") StatusName status) {
-        return bidService.findBidToProcess(status);
+    public Bid bidToProcess(@Valid @RequestParam(name = "statusName") String statusName) {
+        return bidService.findBidToProcess(statusName);
     }
 
     @PutMapping(value = "/update")

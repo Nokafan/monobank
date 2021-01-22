@@ -1,5 +1,6 @@
 package com.example.monobank.entities;
 
+import com.example.monobank.validators.ValidRouteNumber;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,5 +25,6 @@ public class Route {
 
     @NotBlank(message = "Route id couldn't be blank")
     @Column(name = "route_number")
+    @ValidRouteNumber
     private String externalRouteId;
 }

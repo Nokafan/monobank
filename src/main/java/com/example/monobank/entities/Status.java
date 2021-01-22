@@ -33,6 +33,10 @@ public class Status {
     @Column(name = "order_status")
     private StatusName statusName;
 
+    public static Status of(String statusName) {
+        return new Status(StatusName.valueOf(statusName));
+    }
+
     public enum StatusName {
         NEW,
         IN_PROGRESS,
