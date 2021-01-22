@@ -1,8 +1,11 @@
 package com.example.monobank.service.implementation;
 
-import com.example.monobank.dto.BidRequestDto;
+import com.example.monobank.dto.BidCreateRequestDto;
+import com.example.monobank.dto.BidUpdateRequestDto;
 import com.example.monobank.entities.Bid;
 import com.example.monobank.entities.Status;
+import com.example.monobank.entities.Status.StatusName;
+import com.example.monobank.exception.DataProcessingException;
 import com.example.monobank.mapper.BidMapper;
 import com.example.monobank.repositories.BidRepository;
 import com.example.monobank.service.BidService;
@@ -42,24 +45,35 @@ public class BidServiceImpl implements BidService {
     }
 
     @Override
-    public Bid get(Long orderId) {
-        return bidRepository.findById(orderId).orElseThrow();
+    public Bid get(Long bidId) {
+        return bidRepository.findById(bidId)
+                .orElseThrow(() -> new DataProcessingException("Not found bid with bidId: "
+                        + bidId));
     }
 
     @Override
-    public Bid createAndSave(BidRequestDto bidRequestDto) {
-        return bidRepository.save(bidMapper.bitDtoToBid(bidRequestDto));
+    public Bid createAndSave(BidCreateRequestDto bidCreateRequestDto) {
+        return bidRepository.save(bidMapper.mapCreateDtoToBid(bidCreateRequestDto));
     }
 
     @Override
-    public Bid findBidToProcess(Status.BidStatus bidStatus) {
-        Status status = statusService.findByBidStatus(bidStatus);
-        return bidRepository.findFirstByStatus(status).orElseThrow();
+    public Bid findBidToProcess(StatusName statusName) {
+        Status status = statusService.getByStatusName(statusName);
+        return bidRepository.findFirstByStatus(status)
+                .orElseThrow(() -> new DataProcessingException("Not found bid with bidStatus: "
+                        + statusName));
     }
 
     @Override
-    public Bid updateBidStatus(Long bidId, Status status) {
-        Bid repositoryBid = bidRepository.findById(bidId).orElseThrow();
+    public Bid updateBidStatus(BidUpdateRequestDto bidUpdateRequestDto) {
+        long bidId = bidUpdateRequestDto.getId();
+        StatusName statusName = StatusName.valueOf(bidUpdateRequestDto.getStatusName());
+        Status status = statusService.getByStatusName(statusName);
+
+        Bid repositoryBid = bidRepository.findById(bidId)
+                .orElseThrow(() -> new DataProcessingException("Not found bid with bidId: "
+                        + bidId));
+
         repositoryBid.setStatus(status);
         return bidRepository.save(repositoryBid);
     }

@@ -1,6 +1,8 @@
 package com.example.monobank.service.implementation;
 
 import com.example.monobank.entities.Status;
+import com.example.monobank.entities.Status.StatusName;
+import com.example.monobank.exception.DataProcessingException;
 import com.example.monobank.repositories.StatusRepository;
 import com.example.monobank.service.StatusService;
 import java.util.List;
@@ -33,11 +35,15 @@ public class StatusServiceImpl implements StatusService {
 
     @Override
     public Status get(Long statusId) {
-        return statusRepository.findById(statusId).orElseThrow();
+        return statusRepository.findById(statusId)
+                .orElseThrow(() -> new DataProcessingException("Not found status with statusId: "
+                        + statusId));
     }
 
     @Override
-    public Status findByBidStatus(Status.BidStatus bidStatus) {
-        return statusRepository.findByBidStatus(bidStatus).orElseThrow();
+    public Status getByStatusName(StatusName statusName) {
+        return statusRepository.findByStatusName(statusName)
+                .orElseThrow(() -> new DataProcessingException("Not found status with statusName: "
+                        + statusName));
     }
 }

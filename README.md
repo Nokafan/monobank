@@ -14,4 +14,7 @@ GET http://localhost:8080/bid/all
 
 http://localhost:8080/bid/process?status=NEW
 
+Postman PUT->Body->Raw + Json
+http://localhost:8080/bid/update
+{"id" : 1, "statusName" : "ERROR"}
 

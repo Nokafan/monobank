@@ -13,12 +13,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Builder
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@RequiredArgsConstructor
 @Table(name = "status")
 public class Status {
     @Id
@@ -29,10 +31,9 @@ public class Status {
     @NonNull()
     @Enumerated(value = EnumType.STRING)
     @Column(name = "order_status")
-    @Builder.Default
-    private Status.BidStatus bidStatus = BidStatus.NEW;
+    private StatusName statusName;
 
-    public enum BidStatus {
+    public enum StatusName {
         NEW,
         IN_PROGRESS,
         ERROR,
