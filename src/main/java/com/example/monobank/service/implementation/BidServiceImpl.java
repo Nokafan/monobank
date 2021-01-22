@@ -10,9 +10,12 @@ import com.example.monobank.mapper.BidMapper;
 import com.example.monobank.repositories.BidRepository;
 import com.example.monobank.service.BidService;
 import com.example.monobank.service.StatusService;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @Service
 public class BidServiceImpl implements BidService {
@@ -30,11 +33,13 @@ public class BidServiceImpl implements BidService {
     }
 
     @Override
+    @ExceptionHandler({DateTimeParseException.class})
     public Bid save(Bid bid) {
         return bidRepository.save(bid);
     }
 
     @Override
+    @ExceptionHandler({DateTimeParseException.class})
     public List<Bid> saveAll(Iterable<Bid> iterableOrders) {
         return bidRepository.saveAll(iterableOrders);
     }
@@ -45,6 +50,7 @@ public class BidServiceImpl implements BidService {
     }
 
     @Override
+    @ExceptionHandler({DataProcessingException.class, MethodArgumentTypeMismatchException.class})
     public Bid get(Long bidId) {
         return bidRepository.findById(bidId)
                 .orElseThrow(() -> new DataProcessingException("Not found bid with bidId: "
@@ -52,28 +58,30 @@ public class BidServiceImpl implements BidService {
     }
 
     @Override
+    @ExceptionHandler({DateTimeParseException.class})
     public Bid createAndSave(BidCreateRequestDto bidCreateRequestDto) {
         return bidRepository.save(bidMapper.mapCreateDtoToBid(bidCreateRequestDto));
     }
 
     @Override
-    public Bid findBidToProcess(StatusName statusName) {
+    @ExceptionHandler({DataProcessingException.class, IllegalArgumentException.class})
+    public Bid findBidToProcess(String stringStatusName) {
+        StatusName statusName = StatusName.valueOf(stringStatusName);
         Status status = statusService.getByStatusName(statusName);
         return bidRepository.findFirstByStatus(status)
                 .orElseThrow(() -> new DataProcessingException("Not found bid with bidStatus: "
-                        + statusName));
+                        + stringStatusName));
     }
 
     @Override
+    @ExceptionHandler({DataProcessingException.class, IllegalArgumentException.class})
     public Bid updateBidStatus(BidUpdateRequestDto bidUpdateRequestDto) {
         long bidId = bidUpdateRequestDto.getId();
         StatusName statusName = StatusName.valueOf(bidUpdateRequestDto.getStatusName());
         Status status = statusService.getByStatusName(statusName);
-
         Bid repositoryBid = bidRepository.findById(bidId)
                 .orElseThrow(() -> new DataProcessingException("Not found bid with bidId: "
                         + bidId));
-
         repositoryBid.setStatus(status);
         return bidRepository.save(repositoryBid);
     }

@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Builder
@@ -18,7 +19,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Bid {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,6 +27,7 @@ public class Bid {
     @JoinColumn(name = "route_id")
     private Route route;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime dateTime;
 
     @ManyToOne
