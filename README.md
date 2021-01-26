@@ -36,4 +36,10 @@ Spring Boot
 
 Желательно покрытие тестами, использование Spring Data, WebClient или RestTemplate, валидация, lombok, slf4j
 
+Download this project from git, start it with your lovely Intellij IDE.
+
+Enable Annotations processors.
+The project was used Spring Boot Starter, Lombok, H2 in-memory DB, JPA, Hibernate validator, Custom Exception Handler.
+
+There are no tests done. 
 
