@@ -27,10 +27,10 @@ public class ProcessSeviceEmulatorImpl implements ProcessSeviceEmulator {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                BidUpdateRequestDto bidUpdateRequestDto = new BidUpdateRequestDto();
-                bidUpdateRequestDto.setId(bidService.findBidToProcess(STATUS_NAME_NEW).getId());
-                bidUpdateRequestDto.setStatusName(getRandomStatusName());
-                bidService.updateBidStatus(bidUpdateRequestDto);
+                BidUpdateRequestDto bidUpdateDto = new BidUpdateRequestDto();
+                bidUpdateDto.setId(bidService.findBidToProcess(STATUS_NAME_NEW).getId());
+                bidUpdateDto.setStatusName(getRandomStatusName());
+                bidService.updateBidStatus(bidUpdateDto);
             }
         }, 0, 5000);
     }
