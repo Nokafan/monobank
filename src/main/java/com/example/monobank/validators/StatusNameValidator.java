@@ -6,7 +6,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 public class StatusNameValidator implements ConstraintValidator<ValidStatusName, String> {
-    List<String> listStatusNames = new ArrayList<>() {
+    private final List<String> listStatusNames = new ArrayList<>() {
         {
             add("NEW");
             add("IN_PROGRESS");

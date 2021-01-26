@@ -15,7 +15,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @Service
 public class BidServiceImpl implements BidService {
@@ -50,7 +49,7 @@ public class BidServiceImpl implements BidService {
     }
 
     @Override
-    @ExceptionHandler({DataProcessingException.class, MethodArgumentTypeMismatchException.class})
+    @ExceptionHandler({DataProcessingException.class})
     public Bid get(Long bidId) {
         return bidRepository.findById(bidId)
                 .orElseThrow(() -> new DataProcessingException("Not found bid with bidId: "

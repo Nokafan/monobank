@@ -33,7 +33,6 @@ public class BidController {
     }
 
     @GetMapping("/status/{id}")
-
     public StatusName getStatusOfBid(@Valid @PathVariable(name = "id") Long id) {
         return bidService.get(id).getStatus().getStatusName();
     }
